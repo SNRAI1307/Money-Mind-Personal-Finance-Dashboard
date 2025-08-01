@@ -1,4 +1,4 @@
-# 1> Introduction
+# 1. Introduction
 
 ## 💰 Money-Mind: A Personal Finance Dashboard
 
@@ -36,7 +36,7 @@ Ideal for users or businesses who want to **analyze and track financial data**, 
 
 ---
 
-# 2> Install dependencies
+# 2. Install dependencies
 
 npm install
 ## or
@@ -46,7 +46,7 @@ pnpm install
 
 ---
 
-# 3> Set up environment variables
+# 3. Set up environment variables
 
 Create a .env.local file with the following variables:
 DATABASE_URL=<your_drizzle_db_url>
@@ -55,7 +55,7 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
 
 ---
 
-# 4> Run the development server
+# 4. Run the development server
 
 npm run dev
 ## or
@@ -67,7 +67,7 @@ bun dev
 
 ---
 
-# 5> Visit
+# 5. Visit
 
 Open http://localhost:3000 in your browser.
 
@@ -85,7 +85,7 @@ Open http://localhost:3000 in your browser.
 ![Category](./public/screenshots/Categories.png)
 
 ## Transaction
-![Transaction](./public/screenshots/Transaction page.png)
+![Transaction](./public/screenshots/Transaction.png)
 
 
 ---
