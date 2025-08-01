@@ -49,8 +49,11 @@ pnpm install
 # 3. Set up environment variables
 
 Create a .env.local file with the following variables:
+
 DATABASE_URL=<your_drizzle_db_url>
+
 CLERK_SECRET_KEY=<your_clerk_secret_key>
+
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
 
 ---
