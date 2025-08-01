@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
@@ -11,24 +12,24 @@ import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
 
-const CategoriesPage = () => {
+function InnerCategoriesPage() {
   const newCategory = useNewCategory();
-  const deleteCategories = useBulkDeleteCategories()
+  const deleteCategories = useBulkDeleteCategories();
   const categoriesQuery = useGetCategories();
   const categories = categoriesQuery.data || [];
 
-  const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending
+  const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending;
 
   if (categoriesQuery.isLoading) {
     return (
       <div className="max-x-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm">
           <CardHeader>
-            <Skeleton className="h-8 w-48"/>
+            <Skeleton className="h-8 w-48" />
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full flex items-center justify-center">
-              <Loader2 className="size-6 text-slate-300 animate-sping" />
+              <Loader2 className="size-6 text-slate-300 animate-spin" />
             </div>
           </CardContent>
         </Card>
@@ -52,8 +53,8 @@ const CategoriesPage = () => {
             data={categories}
             filterKey="name"
             onDelete={(row) => {
-              const ids = row.map((r) =>  r.original.id)
-              deleteCategories.mutate({ ids })
+              const ids = row.map((r) => r.original.id);
+              deleteCategories.mutate({ ids });
             }}
             disabled={isDisabled}
           />
@@ -61,6 +62,12 @@ const CategoriesPage = () => {
       </Card>
     </div>
   );
-};
+}
 
-export default CategoriesPage;
+export default function CategoriesPage() {
+  return (
+    <Suspense fallback={<div>Loading categories...</div>}>
+      <InnerCategoriesPage />
+    </Suspense>
+  );
+}

@@ -1,7 +1,7 @@
 "use client";
 
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
-import { useState } from "react";
 
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
@@ -33,13 +33,12 @@ const INITIAL_IMPORT_RESULTS = {
   meta: {},
 };
 
-const TransactionsPage = () => {
+function InnerTransactionsPage() {
   const [AccountDialog, confirm] = useSelectAccount();
   const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
   const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
 
   const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-    console.log({ results });
     setImportResults(results);
     setVariant(VARIANTS.IMPORT);
   };
@@ -59,7 +58,7 @@ const TransactionsPage = () => {
     transactionsQuery.isLoading || deleteTransactions.isPending;
 
   const onSubmitImport = async (
-    values: (typeof transactionsSchema.$inferInsert)[],
+    values: (typeof transactionsSchema.$inferInsert)[]
   ) => {
     const accountId = await confirm();
 
@@ -113,9 +112,7 @@ const TransactionsPage = () => {
     <div className="max-w-screen-2xl mx-auto -mt-24 pb-10 w-full">
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-          <CardTitle className="text-xl line-clamp-1">
-            Transaction History
-          </CardTitle>
+          <CardTitle className="text-xl line-clamp-1">Transaction History</CardTitle>
           <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2">
             <Button
               size="sm"
@@ -135,8 +132,8 @@ const TransactionsPage = () => {
             filterKey={"payee"}
             onDelete={(row) => {
               const ids = row
-              .map((r) => r.original.id)
-              .filter((id): id is string => id !== null && id !== undefined); 
+                .map((r) => r.original.id)
+                .filter((id): id is string => id !== null && id !== undefined);
               deleteTransactions.mutate({ ids });
             }}
             disabled={isDisabled}
@@ -145,6 +142,12 @@ const TransactionsPage = () => {
       </Card>
     </div>
   );
-};
+}
 
-export default TransactionsPage;
+export default function TransactionsPage() {
+  return (
+    <Suspense fallback={<div>Loading transactions...</div>}>
+      <InnerTransactionsPage />
+    </Suspense>
+  );
+}
