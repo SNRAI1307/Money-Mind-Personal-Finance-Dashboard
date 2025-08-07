@@ -1,3 +1,4 @@
+"use client";
 import { IconType } from "react-icons";
 import { VariantProps, cva } from "class-variance-authority";
 
